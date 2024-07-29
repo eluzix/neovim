@@ -11,5 +11,14 @@ vim.opt.expandtab = true
 vim.opt.ignorecase = true
 vim.opt.smarttab = true
 
+-- Set tabstop to 4 spaces
+vim.opt.tabstop = 4
+
+-- Set shiftwidth to 4 spaces (used for autoindent)
+vim.opt.shiftwidth = 4
+
+-- Use spaces instead of tabs
+vim.opt.expandtab = true
+
 vim.opt.splitbelow = true -- Put new windows below current
 vim.opt.splitright = true -- Put new windows right of current

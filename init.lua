@@ -18,24 +18,15 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.api.nvim_set_keymap('n', '<leader>/', ':CommentToggle<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>/', ':CommentToggle<CR>', { noremap = true, silent = true })
 
+-- Create an augroup for LSP formatting on save
+vim.api.nvim_create_augroup("lsp_format_on_save", {})
 
--- local lspconfig = require('lspconfig')
--- lspconfig.pylsp.setup {
---   settings = {
---   }
--- }
---
--- lspconfig.rust_analyzer.setup {
---   -- Server-specific settings. See `:help lspconfig-setup`
---   settings = {
---     ['rust-analyzer'] = {
---     diagnostics = {
---         enable = false;
---       }
---       },
---   },
--- }
---
--- require'lspconfig'.pylsp.setup{}
--- require'lspconfig'.tsserver.setup{}
---
+-- Set up an autocmd to format on save for all file types
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = "lsp_format_on_save",
+  pattern = "*",
+  callback = function()
+    vim.lsp.buf.format()
+  end,
+})
+
