@@ -16,6 +16,7 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>tt', '<Cmd>NvimTreeOpen<CR>', {})
 
 -- Example: Map `<leader>/` to toggle comments
+vim.api.nvim_set_keymap('n', '<leader>/', ':CommentToggle<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>/', ':CommentToggle<CR>', { noremap = true, silent = true })
 
 -- Create an augroup for LSP formatting on save
