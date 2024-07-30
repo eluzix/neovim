@@ -13,8 +13,7 @@ vim.opt.smarttab = true
 
 -- Set tabstop to 4 spaces
 vim.opt.tabstop = 4
-
--- Set shiftwidth to 4 spaces (used for autoindent)
+vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 
 -- Use spaces instead of tabs
