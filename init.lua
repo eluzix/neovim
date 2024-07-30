@@ -6,12 +6,12 @@ require("config.keymaps")
 vim.cmd.colorscheme("darcula-dark")
 
 -- Telescop
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fs', builtin.treesitter, {})
-vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+-- local builtin = require('telescope.builtin')
+-- vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+-- vim.keymap.set('n', '<leader>fs', builtin.treesitter, {})
+-- vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
+-- vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+-- vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 vim.keymap.set('n', '<leader>tt', '<Cmd>NvimTreeOpen<CR>', {})
 
