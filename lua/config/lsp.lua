@@ -31,24 +31,24 @@ local custom_attach = function(client, bufnr)
   map("n", "<C-]>", vim.lsp.buf.definition)
   map("n", "K", vim.lsp.buf.hover)
   map("n", "<C-k>", vim.lsp.buf.signature_help)
-  map("n", "<space>rn", vim.lsp.buf.rename, { desc = "varialbe rename" })
+  map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "varialbe rename" })
   map("n", "gr", vim.lsp.buf.references, { desc = "show references" })
   map("n", "[d", diagnostic.goto_prev, { desc = "previous diagnostic" })
   map("n", "]d", diagnostic.goto_next, { desc = "next diagnostic" })
   -- this puts diagnostics from opened files to quickfix
-  map("n", "<space>qw", diagnostic.setqflist, { desc = "put window diagnostics to qf" })
+  map("n", "<leader>qw", diagnostic.setqflist, { desc = "put window diagnostics to qf" })
   -- this puts diagnostics from current buffer to quickfix
-  map("n", "<space>qb", function() set_qflist(bufnr) end, { desc = "put buffer diagnostics to qf" })
-  map("n", "<space>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
-  map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, { desc = "add workspace folder" })
-  map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, { desc = "remove workspace folder" })
-  map("n", "<space>wl", function()
+  map("n", "<leader>qb", function() set_qflist(bufnr) end, { desc = "put buffer diagnostics to qf" })
+  map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
+  map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "add workspace folder" })
+  map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "remove workspace folder" })
+  map("n", "<leader>wl", function()
     inspect(vim.lsp.buf.list_workspace_folders())
   end, { desc = "list workspace folder" })
 
   -- Set some key bindings conditional on server capabilities
   if client.server_capabilities.documentFormattingProvider then
-    map("n", "<space>f", vim.lsp.buf.format, { desc = "format code" })
+    map("n", "<leader>f", vim.lsp.buf.format, { desc = "format code" })
   end
 
   api.nvim_create_autocmd("CursorHold", {
@@ -234,6 +234,7 @@ end
 
 if utils.executable("rust-analyzer") then
 lspconfig.rust_analyzer.setup {
+    on_attach = custom_attach,
   -- Server-specific settings. See `:help lspconfig-setup`
   settings = {
     ['rust-analyzer'] = {
@@ -243,9 +244,13 @@ lspconfig.rust_analyzer.setup {
       },
   },
 }
-
 end
 
+if utils.executable('tsserver') then 
+    lspconfig.tsserver.setup {
+        on_attach = custom_attach
+    }
+end
 -- Change diagnostic signs.
 fn.sign_define("DiagnosticSignError", { text = '🆇', texthl = "DiagnosticSignError" })
 fn.sign_define("DiagnosticSignWarn", { text = '⚠️', texthl = "DiagnosticSignWarn" })
