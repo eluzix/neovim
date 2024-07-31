@@ -12,9 +12,9 @@ vim.opt.ignorecase = true
 vim.opt.smarttab = true
 
 -- Set tabstop to 4 spaces
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 
 -- Use spaces instead of tabs
 vim.opt.expandtab = true
