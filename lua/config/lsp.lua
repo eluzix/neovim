@@ -251,6 +251,13 @@ if utils.executable('tsserver') then
         on_attach = custom_attach
     }
 end
+--
+-- if utils.executable('terrafrom-ls') then
+--     lspconfig.terraform_ls.setup{
+--         on_attach = custom_attach,
+--     }
+-- end
+--
 -- Change diagnostic signs.
 fn.sign_define("DiagnosticSignError", { text = '🆇', texthl = "DiagnosticSignError" })
 fn.sign_define("DiagnosticSignWarn", { text = '⚠️', texthl = "DiagnosticSignWarn" })
