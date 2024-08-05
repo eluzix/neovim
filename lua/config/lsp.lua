@@ -68,7 +68,7 @@ local custom_attach = function(client, bufnr)
 
       local cursor_pos = api.nvim_win_get_cursor(0)
       if (cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
-          and #diagnostic.get() > 0
+        and #diagnostic.get() > 0
       then
         diagnostic.open_float(nil, float_opts)
       end
@@ -83,7 +83,7 @@ local custom_attach = function(client, bufnr)
       hi! link LspReferenceRead Visual
       hi! link LspReferenceText Visual
       hi! link LspReferenceWrite Visual
-    ]])
+      ]])
 
     local gid = api.nvim_create_augroup("lsp_document_highlight", { clear = true })
     api.nvim_create_autocmd("CursorHold" , {
@@ -233,23 +233,23 @@ if utils.executable("lua-language-server") then
 end
 
 if utils.executable("rust-analyzer") then
-lspconfig.rust_analyzer.setup {
+  lspconfig.rust_analyzer.setup {
     on_attach = custom_attach,
-  -- Server-specific settings. See `:help lspconfig-setup`
-  settings = {
-    ['rust-analyzer'] = {
-    diagnostics = {
-        enable = true;
-      }
+    -- Server-specific settings. See `:help lspconfig-setup`
+    settings = {
+      ['rust-analyzer'] = {
+        diagnostics = {
+          enable = true;
+        }
       },
-  },
-}
+    },
+  }
 end
 
 if utils.executable('tsserver') then 
-    lspconfig.tsserver.setup {
-        on_attach = custom_attach
-    }
+  lspconfig.tsserver.setup {
+    on_attach = custom_attach
+  }
 end
 --
 -- if utils.executable('terrafrom-ls') then
@@ -257,7 +257,12 @@ end
 --         on_attach = custom_attach,
 --     }
 -- end
---
+
+-- Go language server
+if utils.executable('golsp') then
+  lspconfig.gopls.setup({})
+end
+
 -- Change diagnostic signs.
 fn.sign_define("DiagnosticSignError", { text = '🆇', texthl = "DiagnosticSignError" })
 fn.sign_define("DiagnosticSignWarn", { text = '⚠️', texthl = "DiagnosticSignWarn" })
