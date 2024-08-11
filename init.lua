@@ -3,7 +3,8 @@ require("config.cmp")
 require("config.opts")
 require("config.keymaps")
 
-vim.cmd.colorscheme("darcula-dark")
+-- vim.cmd.colorscheme("darcula-dark")
+vim.cmd.colorscheme("onenord")
 
 -- Telescop
 -- local builtin = require('telescope.builtin')

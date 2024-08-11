@@ -56,6 +56,8 @@ require("lazy").setup({
 
         -- Python-related text object
         { "jeetsukumaran/vim-pythonsense", ft = { "python" } },
+        
+        { "rmehri01/onenord.nvim" },
     },
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
