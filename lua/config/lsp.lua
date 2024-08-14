@@ -263,6 +263,10 @@ if utils.executable('golsp') then
   lspconfig.gopls.setup({})
 end
 
+if utils.executable('zls') then
+  lspconfig.zls.setup({})
+end
+
 -- Change diagnostic signs.
 fn.sign_define("DiagnosticSignError", { text = '🆇', texthl = "DiagnosticSignError" })
 fn.sign_define("DiagnosticSignWarn", { text = '⚠️', texthl = "DiagnosticSignWarn" })
