@@ -189,8 +189,6 @@ if utils.executable("vim-language-server") then
     },
     capabilities = capabilities,
   }
-else
-  vim.notify("vim-language-server not found!", vim.log.levels.WARN, { title = "Nvim-config" })
 end
 
 -- set up bash-language-server
@@ -265,6 +263,10 @@ end
 
 if utils.executable('zls') then
   lspconfig.zls.setup({})
+end
+
+if utils.executable('ols') then
+  lspconfig.ols.setup({})
 end
 
 -- Change diagnostic signs.
