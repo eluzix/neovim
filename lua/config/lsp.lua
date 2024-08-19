@@ -257,7 +257,7 @@ end
 -- end
 
 -- Go language server
-if utils.executable('golsp') then
+if utils.executable('gopls') then
   lspconfig.gopls.setup({})
 end
 
