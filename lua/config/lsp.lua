@@ -15,7 +15,7 @@ local set_qflist = function(buf_num, severity)
   vim.fn.setqflist({}, ' ', { title = 'Diagnostics', items = qf_items })
 
   -- open quickfix by default
-  vim.cmd[[copen]]
+  vim.cmd [[copen]]
 end
 
 local custom_attach = function(client, bufnr)
@@ -68,7 +68,7 @@ local custom_attach = function(client, bufnr)
 
       local cursor_pos = api.nvim_win_get_cursor(0)
       if (cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
-        and #diagnostic.get() > 0
+          and #diagnostic.get() > 0
       then
         diagnostic.open_float(nil, float_opts)
       end
@@ -86,18 +86,18 @@ local custom_attach = function(client, bufnr)
       ]])
 
     local gid = api.nvim_create_augroup("lsp_document_highlight", { clear = true })
-    api.nvim_create_autocmd("CursorHold" , {
+    api.nvim_create_autocmd("CursorHold", {
       group = gid,
       buffer = bufnr,
-      callback = function ()
+      callback = function()
         lsp.buf.document_highlight()
       end
     })
 
-    api.nvim_create_autocmd("CursorMoved" , {
+    api.nvim_create_autocmd("CursorMoved", {
       group = gid,
       buffer = bufnr,
-      callback = function ()
+      callback = function()
         lsp.buf.clear_references()
       end
     })
@@ -237,14 +237,14 @@ if utils.executable("rust-analyzer") then
     settings = {
       ['rust-analyzer'] = {
         diagnostics = {
-          enable = true;
+          enable = true,
         }
       },
     },
   }
 end
 
-if utils.executable('tsserver') then 
+if utils.executable('tsserver') then
   lspconfig.tsserver.setup {
     on_attach = custom_attach
   }
@@ -259,6 +259,8 @@ end
 -- Go language server
 if utils.executable('gopls') then
   lspconfig.gopls.setup({})
+else
+  vim.notify("gopls not found!", vim.log.levels.WARN, { title = "Nvim-config" })
 end
 
 if utils.executable('zls') then
