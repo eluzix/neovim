@@ -16,5 +16,6 @@ return {
     vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
     vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
     vim.keymap.set('n', '<leader>fws', builtin.lsp_dynamic_workspace_symbols, {})
+    vim.keymap.set('n', '<leader>flg', builtin.live_grep, {})
   end
 }

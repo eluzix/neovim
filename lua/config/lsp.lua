@@ -244,8 +244,8 @@ if utils.executable("rust-analyzer") then
   }
 end
 
-if utils.executable('tsserver') then
-  lspconfig.tsserver.setup {
+if utils.executable('ts_ls') then
+  lspconfig.ts_ls.setup {
     on_attach = custom_attach
   }
 end
