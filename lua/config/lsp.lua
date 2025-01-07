@@ -267,9 +267,9 @@ if utils.executable('zls') then
   lspconfig.zls.setup({})
 end
 
-if utils.executable('ols') then
-  lspconfig.ols.setup({})
-end
+-- if utils.executable('ols') then
+--   lspconfig.ols.setup({})
+-- end
 
 -- Change diagnostic signs.
 fn.sign_define("DiagnosticSignError", { text = '🆇', texthl = "DiagnosticSignError" })
