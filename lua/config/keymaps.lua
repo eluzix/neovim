@@ -10,3 +10,9 @@ vim.api.nvim_set_keymap('n', '<leader>/', ':CommentToggle<CR>', { noremap = true
 vim.api.nvim_set_keymap('v', '<leader>/', ':CommentToggle<CR>', { noremap = true, silent = true })
 -- Open error
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { noremap = true, silent = true })
+
+
+vim.api.nvim_set_keymap("n", "<Leader>ggb", ":GoDebugBreakpoint<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>ggr", ":GoDebugStart<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<F8>", ":GoDebugNext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<F7>", ":GoDebugStep<CR>", { noremap = true, silent = true })
