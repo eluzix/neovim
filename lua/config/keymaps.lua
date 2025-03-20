@@ -14,5 +14,6 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { noremap = true, si
 
 vim.api.nvim_set_keymap("n", "<Leader>ggb", ":GoDebugBreakpoint<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>ggr", ":GoDebugStart<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<F8>", ":GoDebugNext<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<F7>", ":GoDebugStep<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>ggc", ":GoDebugContinue<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<F8>", ":GoDebugNext<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<F7>", ":GoDebugStep<CR>", { noremap = true, silent = true })
