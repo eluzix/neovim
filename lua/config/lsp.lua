@@ -133,7 +133,7 @@ if utils.executable("pylsp") then
           autopep8 = { enabled = true },
           yapf = { enabled = false },
           -- linter options
-          pylint = { enabled = true, executable = "pylint" },
+          pylint = { enabled = false, executable = "pylint" },
           ruff = { enabled = true },
           pyflakes = { enabled = false },
           pycodestyle = { enabled = false },
