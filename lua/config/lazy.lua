@@ -67,6 +67,16 @@ require("lazy").setup({
         --     hunk.setup()
         --   end,
         -- },
+        {
+          'MeanderingProgrammer/render-markdown.nvim',
+          dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, 
+          opts = {},
+          config = function()
+            require('render-markdown').setup({
+              completions = { lsp = { enabled = true } },
+            })
+          end,
+        },
     },
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
