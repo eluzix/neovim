@@ -111,7 +111,7 @@ end
 
 -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local lspconfig = require("lspconfig")
+-- local lspconfig = require("lspconfig")
 
 if utils.executable("pylsp") then
   local venv_path = os.getenv('VIRTUAL_ENV')
@@ -123,7 +123,7 @@ if utils.executable("pylsp") then
     py_path = vim.g.python3_host_prog
   end
 
-  lspconfig.pylsp.setup {
+  vim.lsp.config("pylsp", {
     on_attach = custom_attach,
     settings = {
       pylsp = {
@@ -155,7 +155,7 @@ if utils.executable("pylsp") then
       debounce_text_changes = 200,
     },
     capabilities = capabilities,
-  }
+  })
 else
   vim.notify("pylsp not found!", vim.log.levels.WARN, { title = "Nvim-config" })
 end
@@ -170,38 +170,38 @@ end
 -- end
 
 if utils.executable("clangd") then
-  lspconfig.clangd.setup {
+  vim.lsp.config("clangd", {
     on_attach = custom_attach,
     capabilities = capabilities,
     filetypes = { "c", "cpp", "cc" },
     flags = {
       debounce_text_changes = 500,
     },
-  }
+  })
 end
 
 -- set up vim-language-server
 if utils.executable("vim-language-server") then
-  lspconfig.vimls.setup {
+  vim.lsp.config("vimls", {
     on_attach = custom_attach,
     flags = {
       debounce_text_changes = 500,
     },
     capabilities = capabilities,
-  }
+  })
 end
 
 -- set up bash-language-server
 if utils.executable("bash-language-server") then
-  lspconfig.bashls.setup {
+  vim.lsp.config("bashls", {
     on_attach = custom_attach,
     capabilities = capabilities,
-  }
+  })
 end
 
 if utils.executable("lua-language-server") then
   -- settings for lua-language-server can be found on https://github.com/LuaLS/lua-language-server/wiki/Settings .
-  lspconfig.lua_ls.setup {
+  vim.lsp.config("lua_ls", {
     on_attach = custom_attach,
     settings = {
       Lua = {
@@ -227,11 +227,11 @@ if utils.executable("lua-language-server") then
       },
     },
     capabilities = capabilities,
-  }
+  })
 end
 
 if utils.executable("rust-analyzer") then
-  lspconfig.rust_analyzer.setup {
+  vim.lsp.config("rust_analyzer", {
     on_attach = custom_attach,
     -- Server-specific settings. See `:help lspconfig-setup`
     settings = {
@@ -241,13 +241,13 @@ if utils.executable("rust-analyzer") then
         }
       },
     },
-  }
+  })
 end
 
 if utils.executable('ts_ls') then
-  lspconfig.ts_ls.setup {
+  vim.lsp.config("ts_ls", {
     on_attach = custom_attach
-  }
+  })
 end
 --
 -- if utils.executable('terrafrom-ls') then
@@ -258,13 +258,13 @@ end
 
 -- Go language server
 if utils.executable('gopls') then
-  lspconfig.gopls.setup({})
+  vim.lsp.config("gopls", {})
 else
   vim.notify("gopls not found!", vim.log.levels.WARN, { title = "Nvim-config" })
 end
 
 if utils.executable('zls') then
-  lspconfig.zls.setup({})
+  vim.lsp.config("zls",{})
 end
 
 -- if utils.executable('ols') then

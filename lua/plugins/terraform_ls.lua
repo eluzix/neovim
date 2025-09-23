@@ -4,7 +4,7 @@ return {
     dependencies = { "neovim/nvim-lspconfig" },
     opts = {},
     config = function() 
-        require'lspconfig'.terraformls.setup{}
+        vim.lsp.config("terraformls",{})
         vim.api.nvim_create_autocmd({"BufWritePre"}, {
             pattern = {"*.tf", "*.tfvars"},
             callback = function()
