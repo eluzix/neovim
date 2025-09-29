@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = "lsp_format_on_save",
   pattern = "*.go",
   callback = function()
-    local params = vim.lsp.util.make_range_params()
+    local params = vim.lsp.util.make_range_params(0, "utf-8")
     params.context = { only = { "source.organizeImports" } }
     -- buf_request_sync defaults to a 1000ms timeout. Depending on your
     -- machine and codebase, you may want longer. Add an additional
@@ -30,6 +30,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         end
       end
     end
-    vim.lsp.buf.format({ async = false })
+    vim.lsp.buf.format()
   end
 })
