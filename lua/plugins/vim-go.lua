@@ -2,8 +2,10 @@ return {
   "fatih/vim-go",
 
   config = function()
-    vim.g.go_debug_windows = {
-      ["vars"] = "rightbelow 8new",
+    vim.g.go_def_mode = 'gopls'
+    vim.g.go_info_mode = 'gopls'
+
+      vim.g.go_debug_windows = { ["vars"] = "rightbelow 8new",
       ["stack"] = "rightbelow 3new",
       -- ["goroutines"] = "rightbelow 10new",
       ["output"] = "right 5new",

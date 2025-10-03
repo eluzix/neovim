@@ -258,7 +258,11 @@ end
 
 -- Go language server
 if utils.executable('gopls') then
-  vim.lsp.config("gopls", {})
+  vim.lsp.config("gopls", {
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    on_attach = custom_attach,
+  })
+  vim.lsp.enable("gopls")
 else
   vim.notify("gopls not found!", vim.log.levels.WARN, { title = "Nvim-config" })
 end
