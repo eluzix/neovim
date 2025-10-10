@@ -17,3 +17,7 @@ vim.api.nvim_set_keymap("n", "<Leader>ggr", ":GoDebugStart<CR>", { noremap = tru
 vim.api.nvim_set_keymap("n", "<Leader>ggc", ":GoDebugContinue<CR>", { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap("n", "<F8>", ":GoDebugNext<CR>", { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap("n", "<F7>", ":GoDebugStep<CR>", { noremap = true, silent = true })
+
+
+vim.api.nvim_set_keymap("n", "<Leader>ca", "vim.lsp.buf.code_action", {})
+
