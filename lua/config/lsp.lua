@@ -228,6 +228,7 @@ if utils.executable("lua-language-server") then
     },
     capabilities = capabilities,
   })
+  vim.lsp.enable("lua_ls")
 end
 
 if utils.executable("rust-analyzer") then
@@ -269,6 +270,7 @@ end
 
 if utils.executable('zls') then
   vim.lsp.config("zls",{})
+  vim.lsp.enable("zls")
 end
 
 -- if utils.executable('ols') then
