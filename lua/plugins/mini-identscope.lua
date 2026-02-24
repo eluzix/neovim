@@ -12,9 +12,9 @@ return {
       options = { try_as_border = true },
     },
     draw = {
-      delay = 1500,
+      delay = 300,
       animation = function(s,m)
-        return 5
+        return 2
       end
     },
     init = function()

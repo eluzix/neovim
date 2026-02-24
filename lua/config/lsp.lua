@@ -254,11 +254,15 @@ if utils.executable('ts_ls') then
   })
 end
 --
--- if utils.executable('terrafrom-ls') then
---     lspconfig.terraform_ls.setup{
---         on_attach = custom_attach,
---     }
--- end
+if utils.executable('terraform-ls') then
+    vim.lsp.config("terraformls", {
+        filetypes = { "terraform", "terraform-vars" },
+        on_attach = custom_attach,
+    })
+  vim.lsp.enable("terraformls")
+else
+  vim.notify("terraform-ls not found!", vim.log.levels.WARN, { title = "Nvim-config" })
+end
 
 -- Go language server
 if utils.executable('gopls') then

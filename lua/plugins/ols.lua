@@ -1,3 +1,0 @@
-return {
-  "DanielGavin/ols",
-}
