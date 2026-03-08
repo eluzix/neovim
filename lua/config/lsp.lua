@@ -253,6 +253,15 @@ if utils.executable('ts_ls') then
     on_attach = custom_attach
   })
 end
+
+if utils.executable("biome") then
+  vim.lsp.config("biome", {
+    cmd = { "biome", "lsp-proxy" },
+    on_attach = custom_attach,
+    root_markers = { "biome.json", "biome.jsonc", "package.json", ".git" },
+  })
+  vim.lsp.enable("biome")
+end
 --
 if utils.executable('terraform-ls') then
     vim.lsp.config("terraformls", {

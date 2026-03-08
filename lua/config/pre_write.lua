@@ -1,12 +1,33 @@
 -- Create an augroup for LSP formatting on save
 vim.api.nvim_create_augroup("lsp_format_on_save", {})
 
+local biome_filetypes = {
+  javascript = true,
+  javascriptreact = true,
+  typescript = true,
+  typescriptreact = true,
+  json = true,
+  jsonc = true,
+  css = true,
+  graphql = true,
+}
+
 -- Set up an autocmd to format on save for all file types
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = "lsp_format_on_save",
   pattern = "*",
   callback = function()
-    vim.lsp.buf.format()
+    local ft = vim.bo.filetype
+    vim.lsp.buf.format({
+      timeout_ms = 2000,
+      filter = function(client)
+        if biome_filetypes[ft] then
+          return client.name == "biome"
+        end
+
+        return true
+      end,
+    })
   end,
 })
 
@@ -30,6 +51,11 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         end
       end
     end
-    vim.lsp.buf.format()
+    vim.lsp.buf.format({
+      timeout_ms = 2000,
+      filter = function(client)
+        return client.name == "gopls"
+      end,
+    })
   end
 })
