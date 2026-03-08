@@ -20,3 +20,6 @@ vim.api.nvim_set_keymap("n", "<Leader>ggc", ":GoDebugContinue<CR>", { noremap = 
 
 vim.api.nvim_set_keymap("n", "<Leader>ca", "vim.lsp.buf.code_action", {})
 
+-- close current buffer
+vim.api.nvim_set_keymap("n", "<Leader>ww", ":bd<CR>", {})
+
