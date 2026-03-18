@@ -110,6 +110,22 @@ return {
         return port, nil
       end
 
+      local function find_lldb_dap_executable()
+        local candidates = {
+          vim.fn.exepath("lldb-dap"),
+          "/opt/homebrew/opt/llvm/bin/lldb-dap",
+          "/usr/local/opt/llvm/bin/lldb-dap",
+        }
+
+        for _, candidate in ipairs(candidates) do
+          if candidate ~= nil and candidate ~= "" and vim.fn.executable(candidate) == 1 then
+            return candidate
+          end
+        end
+
+        return nil
+      end
+
       dap.adapters["pwa-node"] = function(callback)
         local port, port_err = find_open_port()
         if not port then
@@ -128,6 +144,21 @@ return {
             args = { tostring(port), "127.0.0.1" },
           },
         })
+      end
+
+      local lldb_dap_executable = find_lldb_dap_executable()
+      if lldb_dap_executable then
+        dap.adapters["lldb"] = {
+          type = "executable",
+          command = lldb_dap_executable,
+          name = "lldb",
+        }
+      else
+        vim.schedule(function()
+          vim.notify("lldb-dap was not found in PATH. Install LLVM lldb-dap to enable Zig debugging.", vim.log.levels.WARN, {
+            title = "nvim-dap",
+          })
+        end)
       end
 
       local function test_name_argument(label, flag)
@@ -160,6 +191,63 @@ return {
 
       local function is_typescript_buffer()
         return vim.bo.filetype == "typescript" or vim.bo.filetype == "typescriptreact"
+      end
+
+      local function zig_project_root()
+        local current_file = vim.api.nvim_buf_get_name(0)
+        local start_path = current_file ~= "" and vim.fs.dirname(current_file) or uv.cwd()
+        local markers = { "build.zig", ".git" }
+        local found = vim.fs.find(markers, { upward = true, path = start_path })[1]
+        if found then
+          return vim.fs.dirname(found)
+        end
+        return uv.cwd()
+      end
+
+      local function zig_output_binary_path(source_file)
+        local root = zig_project_root()
+        local source_basename = vim.fn.fnamemodify(source_file, ":t:r")
+        return root .. "/zig-out/bin/" .. source_basename
+      end
+
+      local function build_current_zig_file()
+        local source_file = vim.api.nvim_buf_get_name(0)
+        if source_file == "" then
+          vim.notify("No current file to build for Zig debugging.", vim.log.levels.ERROR, { title = "nvim-dap" })
+          return nil
+        end
+
+        if vim.fn.executable("zig") == 0 then
+          vim.notify("zig executable was not found in PATH.", vim.log.levels.ERROR, { title = "nvim-dap" })
+          return nil
+        end
+
+        local output_path = zig_output_binary_path(source_file)
+        local output_dir = vim.fs.dirname(output_path)
+        if vim.fn.isdirectory(output_dir) == 0 then
+          local mkdir_ok = vim.fn.mkdir(output_dir, "p")
+          if mkdir_ok == 0 then
+            vim.notify("Failed to create Zig output directory: " .. output_dir, vim.log.levels.ERROR, {
+              title = "nvim-dap",
+            })
+            return nil
+          end
+        end
+
+        local result = vim.fn.system({ "zig", "build-exe", "-O", "Debug", "-femit-bin=" .. output_path, source_file })
+        if vim.v.shell_error ~= 0 then
+          vim.notify("zig build-exe failed:\n" .. result, vim.log.levels.ERROR, { title = "nvim-dap" })
+          return input_non_empty("Build failed, binary to debug: ", output_path, "file")
+        end
+
+        if vim.fn.filereadable(output_path) == 0 then
+          vim.notify("Zig build completed but binary was not found at " .. output_path, vim.log.levels.WARN, {
+            title = "nvim-dap",
+          })
+          return input_non_empty("Binary to debug: ", output_path, "file")
+        end
+
+        return output_path
       end
 
       local function detect_package_manager(root)
@@ -397,6 +485,54 @@ return {
 
       for _, filetype in ipairs(javascript_like_filetypes) do
         dap.configurations[filetype] = vim.deepcopy(shared_configs)
+      end
+
+      if lldb_dap_executable then
+        dap.configurations.zig = {
+          {
+            type = "lldb",
+            request = "launch",
+            name = "Zig: Build & debug current file",
+            cwd = zig_project_root,
+            program = function()
+              return build_current_zig_file()
+            end,
+            args = function()
+              local raw_args = vim.fn.input("Program args (space-separated): ")
+              if raw_args == "" then
+                return {}
+              end
+              return vim.split(raw_args, " ", { trimempty = true })
+            end,
+            stopOnEntry = false,
+          },
+          {
+            type = "lldb",
+            request = "launch",
+            name = "Zig: Debug existing binary",
+            cwd = zig_project_root,
+            program = function()
+              local source_file = vim.api.nvim_buf_get_name(0)
+              local default_binary = source_file ~= "" and zig_output_binary_path(source_file) or zig_project_root() .. "/zig-out/bin/"
+              return input_non_empty("Binary path: ", default_binary, "file")
+            end,
+            args = function()
+              local raw_args = vim.fn.input("Program args (space-separated): ")
+              if raw_args == "" then
+                return {}
+              end
+              return vim.split(raw_args, " ", { trimempty = true })
+            end,
+            stopOnEntry = false,
+          },
+          {
+            type = "lldb",
+            request = "attach",
+            name = "Zig: Attach to process",
+            cwd = zig_project_root,
+            pid = require("dap.utils").pick_process,
+          },
+        }
       end
 
       dap.listeners.after.event_initialized["dapui_config"] = function()

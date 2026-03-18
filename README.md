@@ -11,6 +11,12 @@ For TypeScript/JavaScript debugging support:
 brew install node
 ```
 
+For Zig debugging support (LLVM LLDB adapter + Zig compiler):
+
+```zsh
+brew install llvm zig
+```
+
 Then install language servers:
 
 ```zsh
@@ -52,3 +58,13 @@ Default debug keymaps:
 1. `Ctrl+F2`: stop.
 1. `Shift+F11`: toggle debug UI.
 1. `Alt+F8`: evaluate/REPL toggle.
+
+# Zig Debugging
+
+Zig debugging uses LLVM's `lldb-dap` adapter and the same keymaps above.
+
+Available Zig profiles include:
+
+1. `Zig: Build & debug current file` (runs `zig build-exe -O Debug` then debugs output).
+1. `Zig: Debug existing binary` (prompt for binary path).
+1. `Zig: Attach to process` (pick PID).
