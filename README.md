@@ -56,6 +56,7 @@ Default debug keymaps:
 1. `<leader>dq`: stop.
 1. `<leader>du`: toggle debug UI.
 1. `<leader>dr`: toggle DAP REPL.
+1. `<leader>de`: evaluate expression in floating window (current word or visual selection).
 1. `F9`: resume/start continue (IntelliJ style).
 1. `F8`: step over.
 1. `F7`: step into.
@@ -63,7 +64,7 @@ Default debug keymaps:
 1. `Ctrl+F8`: toggle breakpoint.
 1. `Ctrl+F2`: stop.
 1. `Shift+F11`: toggle debug UI.
-1. `Alt+F8`: evaluate/REPL toggle.
+1. `Alt+F8`: evaluate expression in floating window.
 
 # Zig Debugging
 

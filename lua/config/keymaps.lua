@@ -60,6 +60,14 @@ keymap.set("n", "<leader>du", function()
   end)
 end, { silent = true, desc = "Debug: Toggle UI" })
 
+local function dapui_eval_current()
+  with_dapui(function(dapui)
+    dapui.eval(nil, { context = "repl", enter = true })
+  end)
+end
+
+keymap.set({ "n", "v" }, "<leader>de", dapui_eval_current, { silent = true, desc = "Debug: Evaluate expression (floating)" })
+
 -- IntelliJ IDEA-style debug mappings.
 dap_action({ lhs = "<F9>", run = function(dap) dap.continue() end }, "Debug: Resume Program")
 dap_action({ lhs = "<F8>", run = function(dap) dap.step_over() end }, "Debug: Step Over")
@@ -76,7 +84,7 @@ keymap.set("n", "<S-F11>", function()
   end)
 end, { silent = true, desc = "Debug: Toggle UI" })
 
-dap_action({ lhs = "<A-F8>", run = function(dap) dap.repl.toggle() end }, "Debug: Evaluate/REPL")
+keymap.set({ "n", "v" }, "<A-F8>", dapui_eval_current, { silent = true, desc = "Debug: Evaluate expression (floating)" })
 
 -- Terminal fallback codes for modified function keys.
 -- dap_action({ lhs = "<F20>", run = function(dap) dap.step_out() end }, "Debug: Step Out (Shift+F8 fallback)")
