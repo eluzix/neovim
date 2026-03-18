@@ -17,6 +17,12 @@ For Zig debugging support (LLVM LLDB adapter + Zig compiler):
 brew install llvm zig
 ```
 
+For Go debugging support (Delve DAP adapter):
+
+```zsh
+go install github.com/go-delve/delve/cmd/dlv@latest
+```
+
 Then install language servers:
 
 ```zsh
@@ -68,3 +74,15 @@ Available Zig profiles include:
 1. `Zig: Build & debug current file` (runs `zig build-exe -O Debug` then debugs output).
 1. `Zig: Debug existing binary` (prompt for binary path).
 1. `Zig: Attach to process` (pick PID).
+
+# Go Debugging
+
+Go debugging now uses `nvim-dap` + `dlv`, so it matches TypeScript/Zig flow and keymaps.
+
+Available Go profiles include:
+
+1. `Go: Debug current file`.
+1. `Go: Debug package`.
+1. `Go: Debug test file`.
+1. `Go: Debug test package`.
+1. `Go: Attach to process`.

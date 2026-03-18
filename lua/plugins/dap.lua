@@ -146,6 +146,33 @@ return {
         })
       end
 
+      dap.adapters["go"] = function(callback)
+        if vim.fn.executable("dlv") == 0 then
+          vim.notify("dlv executable was not found in PATH. Install Delve to enable Go debugging.", vim.log.levels.ERROR, {
+            title = "nvim-dap",
+          })
+          return
+        end
+
+        local port, port_err = find_open_port()
+        if not port then
+          vim.notify(port_err, vim.log.levels.ERROR, {
+            title = "nvim-dap",
+          })
+          return
+        end
+
+        callback({
+          type = "server",
+          host = "127.0.0.1",
+          port = port,
+          executable = {
+            command = "dlv",
+            args = { "dap", "-l", "127.0.0.1:" .. tostring(port) },
+          },
+        })
+      end
+
       local lldb_dap_executable = find_lldb_dap_executable()
       if lldb_dap_executable then
         dap.adapters["lldb"] = {
@@ -248,6 +275,17 @@ return {
         end
 
         return output_path
+      end
+
+      local function go_project_root()
+        local current_file = vim.api.nvim_buf_get_name(0)
+        local start_path = current_file ~= "" and vim.fs.dirname(current_file) or uv.cwd()
+        local markers = { "go.work", "go.mod", ".git" }
+        local found = vim.fs.find(markers, { upward = true, path = start_path })[1]
+        if found then
+          return vim.fs.dirname(found)
+        end
+        return uv.cwd()
       end
 
       local function detect_package_manager(root)
@@ -486,6 +524,47 @@ return {
       for _, filetype in ipairs(javascript_like_filetypes) do
         dap.configurations[filetype] = vim.deepcopy(shared_configs)
       end
+
+      dap.configurations.go = {
+        {
+          type = "go",
+          request = "launch",
+          name = "Go: Debug current file",
+          program = "${file}",
+          cwd = go_project_root,
+        },
+        {
+          type = "go",
+          request = "launch",
+          name = "Go: Debug package",
+          program = "${fileDirname}",
+          cwd = go_project_root,
+        },
+        {
+          type = "go",
+          request = "launch",
+          mode = "test",
+          name = "Go: Debug test file",
+          program = "${file}",
+          cwd = go_project_root,
+        },
+        {
+          type = "go",
+          request = "launch",
+          mode = "test",
+          name = "Go: Debug test package",
+          program = "${fileDirname}",
+          cwd = go_project_root,
+        },
+        {
+          type = "go",
+          request = "attach",
+          mode = "local",
+          name = "Go: Attach to process",
+          processId = require("dap.utils").pick_process,
+          cwd = go_project_root,
+        },
+      }
 
       if lldb_dap_executable then
         dap.configurations.zig = {
