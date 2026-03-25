@@ -48,6 +48,7 @@ end
 
 dap_action({ lhs = "<leader>dd", run = function(dap) dap.continue() end }, "Debug: Start/Continue")
 dap_action({ lhs = "<leader>db", run = function(dap) dap.toggle_breakpoint() end }, "Debug: Toggle Breakpoint")
+dap_action({ lhs = "<leader>dc", run = function(dap) dap.set_breakpoint(vim.fn.input("Breakpoint condition: ")) end }, "Debug: Conditional Breakpoint")
 dap_action({ lhs = "<leader>di", run = function(dap) dap.step_into() end }, "Debug: Step Into")
 dap_action({ lhs = "<leader>dn", run = function(dap) dap.step_over() end }, "Debug: Step Over")
 dap_action({ lhs = "<leader>do", run = function(dap) dap.step_out() end }, "Debug: Step Out")
@@ -84,8 +85,7 @@ keymap.set("n", "<S-F11>", function()
   end)
 end, { silent = true, desc = "Debug: Toggle UI" })
 
-keymap.set({ "n", "v" }, "<A-F8>", dapui_eval_current, { silent = true, desc = "Debug: Evaluate expression (floating)" })
-
+keymap.set({ "n", "v" }, "<F44>", dapui_eval_current, { silent = true, desc = "Debug: Evaluate expression (floating)" })
 -- Terminal fallback codes for modified function keys.
 -- dap_action({ lhs = "<F20>", run = function(dap) dap.step_out() end }, "Debug: Step Out (Shift+F8 fallback)")
 -- dap_action({ lhs = "<F32>", run = function(dap) dap.toggle_breakpoint() end }, "Debug: Toggle Breakpoint (Ctrl+F8 fallback)")

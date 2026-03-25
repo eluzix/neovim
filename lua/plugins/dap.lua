@@ -566,6 +566,106 @@ return {
         },
       }
 
+      -- Python adapter (debugpy via Mason)
+      local function python_path()
+        -- Detect uv/poetry/pipenv .venv in project root
+        local root = project_root()
+        local local_venv = root .. "/.venv/bin/python"
+        if vim.fn.executable(local_venv) == 1 then
+          return local_venv
+        end
+        local venv = os.getenv("VIRTUAL_ENV")
+        if venv then
+          return venv .. "/bin/python"
+        end
+        if vim.fn.executable("python3") == 1 then
+          return vim.fn.exepath("python3")
+        end
+        return vim.fn.exepath("python")
+      end
+
+      local debugpy_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+      if vim.fn.filereadable(debugpy_path) == 0 then
+        if registry.has_package("debugpy") then
+          local debugpy_pkg = registry.get_package("debugpy")
+          if not debugpy_pkg:is_installed() then
+            debugpy_pkg:install()
+          end
+        end
+      end
+
+      dap.adapters.python = {
+        type = "executable",
+        command = debugpy_path,
+        args = { "-m", "debugpy.adapter" },
+      }
+
+      dap.configurations.python = {
+        {
+          type = "python",
+          request = "launch",
+          name = "Python: Debug current file",
+          cwd = project_root,
+          program = "${file}",
+          pythonPath = python_path,
+          console = "integratedTerminal",
+        },
+        {
+          type = "python",
+          request = "launch",
+          name = "Python: Debug with arguments",
+          cwd = project_root,
+          program = "${file}",
+          pythonPath = python_path,
+          args = function()
+            local raw_args = vim.fn.input("Program args (space-separated): ")
+            if raw_args == "" then
+              return {}
+            end
+            return vim.split(raw_args, " ", { trimempty = true })
+          end,
+          console = "integratedTerminal",
+        },
+        {
+          type = "python",
+          request = "launch",
+          name = "Python: Debug module",
+          cwd = project_root,
+          module = function()
+            return input_non_empty("Module name: ", "")
+          end,
+          pythonPath = python_path,
+          console = "integratedTerminal",
+        },
+        {
+          type = "python",
+          request = "launch",
+          name = "Python: Debug pytest",
+          cwd = project_root,
+          module = "pytest",
+          pythonPath = python_path,
+          args = function()
+            local args = { vim.fn.expand("%:p"), "-sv" }
+            local test_name = vim.fn.input("Test name (optional): ")
+            if test_name ~= "" then
+              vim.list_extend(args, { "-k", test_name })
+            end
+            return args
+          end,
+          console = "integratedTerminal",
+        },
+        {
+          type = "python",
+          request = "attach",
+          name = "Python: Attach to process",
+          connect = function()
+            local host = input_non_empty("Host: ", "127.0.0.1")
+            local port = tonumber(input_non_empty("Port: ", "5678"))
+            return { host = host, port = port }
+          end,
+        },
+      }
+
       if lldb_dap_executable then
         dap.configurations.zig = {
           {

@@ -6,6 +6,8 @@ local diagnostic = vim.diagnostic
 
 local utils = require("utils")
 
+lsp.completion.enable()
+
 -- set quickfix list from diagnostics in a certain buffer, not the whole workspace
 local set_qflist = function(buf_num, severity)
   local diagnostics = nil
