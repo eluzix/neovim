@@ -57,7 +57,7 @@ require("lazy").setup({
         -- Python-related text object
         { "jeetsukumaran/vim-pythonsense", ft = { "python" } },
         
-        { "rmehri01/onenord.nvim" },
+
     -- { "MunifTanjim/nui.nvim", lazy = true },
         -- {
         --   "julienvincent/hunk.nvim",

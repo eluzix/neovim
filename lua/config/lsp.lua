@@ -32,8 +32,7 @@ local custom_attach = function(client, bufnr)
   map("n", "gd", vim.lsp.buf.definition, { desc = "go to definition" })
   map("n", "<C-]>", vim.lsp.buf.definition)
   map("n", "K", vim.lsp.buf.hover)
-  map("n", "<C-k>", vim.lsp.buf.signature_help)
-  map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "varialbe rename" })
+  map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "variable rename" })
   map("n", "gr", vim.lsp.buf.references, { desc = "show references" })
   map("n", "[d", diagnostic.goto_prev, { desc = "previous diagnostic" })
   map("n", "]d", diagnostic.goto_next, { desc = "next diagnostic" })
@@ -41,7 +40,6 @@ local custom_attach = function(client, bufnr)
   map("n", "<leader>qw", diagnostic.setqflist, { desc = "put window diagnostics to qf" })
   -- this puts diagnostics from current buffer to quickfix
   map("n", "<leader>qb", function() set_qflist(bufnr) end, { desc = "put buffer diagnostics to qf" })
-  map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
   map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "add workspace folder" })
   map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "remove workspace folder" })
   map("n", "<leader>wl", function()
@@ -111,9 +109,7 @@ local custom_attach = function(client, bufnr)
   end
 end
 
--- local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
--- local lspconfig = require("lspconfig")
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 if utils.executable("ty") then 
   vim.lsp.enable("ty")
@@ -183,6 +179,7 @@ if utils.executable("clangd") then
       debounce_text_changes = 500,
     },
   })
+  vim.lsp.enable("clangd")
 end
 
 -- set up vim-language-server
@@ -194,6 +191,7 @@ if utils.executable("vim-language-server") then
     },
     capabilities = capabilities,
   })
+  vim.lsp.enable("vimls")
 end
 
 -- set up bash-language-server
@@ -202,6 +200,7 @@ if utils.executable("bash-language-server") then
     on_attach = custom_attach,
     capabilities = capabilities,
   })
+  vim.lsp.enable("bashls")
 end
 
 if utils.executable("lua-language-server") then
@@ -239,7 +238,7 @@ end
 if utils.executable("rust-analyzer") then
   vim.lsp.config("rust_analyzer", {
     on_attach = custom_attach,
-    -- Server-specific settings. See `:help lspconfig-setup`
+    capabilities = capabilities,
     settings = {
       ['rust-analyzer'] = {
         diagnostics = {
@@ -248,12 +247,15 @@ if utils.executable("rust-analyzer") then
       },
     },
   })
+  vim.lsp.enable("rust_analyzer")
 end
 
 if utils.executable('ts_ls') then
   vim.lsp.config("ts_ls", {
-    on_attach = custom_attach
+    on_attach = custom_attach,
+    capabilities = capabilities,
   })
+  vim.lsp.enable("ts_ls")
 end
 
 if utils.executable("biome") then

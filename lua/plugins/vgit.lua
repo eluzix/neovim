@@ -5,7 +5,7 @@ return {
   event = 'VimEnter',
   config = function() require("vgit").setup({
     keymaps = {
-    ['n <C-k>'] = function() require('vgit').hunk_up() end,
+    ['n <leader>gk'] = function() require('vgit').hunk_up() end,
     {
       mode = 'n',
       key = '<C-j>',
