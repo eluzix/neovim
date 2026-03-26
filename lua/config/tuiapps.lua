@@ -1,8 +1,16 @@
 local utils = require("utils")
 if utils.executable("tracer") then
-  vim.api.nvim_create_user_command("TheTracer", function()
-    require("open_tui").open_float_term("tracer")
-  end, {})
+  vim.api.nvim_create_user_command("TheTracer", function(opts)
+    local cmd = "tracer"
+    if opts.range ~= 0 then
+      local lines = vim.fn.getregion(vim.fn.getpos("'<"), vim.fn.getpos("'>"), { type = vim.fn.visualmode() })
+      local text = table.concat(lines, "\n")
+      if text ~= "" then
+        cmd = cmd .. " " .. vim.fn.shellescape(text)
+      end
+    end
+    require("open_tui").open_float_term(cmd)
+  end, { range = true })
 end
 
 if utils.executable("healthee-cli") then
