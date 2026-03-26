@@ -3,9 +3,9 @@
  require("config.opts")
  require("config.keymaps")
  require("config.pre_write")
+ require("config.tuiapps")
  
  -- vim.cmd.colorscheme("darcula-dark")
  -- vim.cmd.colorscheme("onenord")
  -- vim.cmd.colorscheme("monokai-pro")
  vim.cmd.colorscheme("oldcrt")
- 

@@ -1,4 +1,6 @@
 local keymap = vim.keymap
+local utils = require("utils")
+
 
 keymap.set("n", "+", "<C-a>")
 keymap.set("n", "-", "<C-x>")
@@ -17,6 +19,11 @@ keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { noremap = true, silent 
 -- close current buffer
 keymap.set("n", "<Leader>ww", ":bd<CR>", { noremap = true, silent = true })
 
+-- Healthee tui apps --
+
+
+if utils.executable("tracer") then
+end
 
  --- DAP config start --- 
 
