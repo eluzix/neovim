@@ -8,4 +8,5 @@
  -- vim.cmd.colorscheme("darcula-dark")
  -- vim.cmd.colorscheme("onenord")
  -- vim.cmd.colorscheme("monokai-pro")
- vim.cmd.colorscheme("oldcrt")
+ -- vim.cmd.colorscheme("oldcrt")
+vim.cmd.colorscheme("yuvi")
