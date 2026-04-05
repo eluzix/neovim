@@ -18,3 +18,8 @@ vim.opt.shiftwidth = 2
 
 vim.opt.splitbelow = true -- Put new windows below current
 vim.opt.splitright = true -- Put new windows right of current
+
+vim.o.autocomplete = true
+vim.o.pumborder = 'rounded'
+vim.o.pummaxwidth = 40
+vim.o.completeopt = 'menu,menuone,noselect,nearest'
