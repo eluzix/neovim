@@ -1,6 +1,7 @@
 -- Show context of the current function
 return {
   "nvim-treesitter/nvim-treesitter-context",
+  enabled = false,
   event = "VeryLazy",
   opts = function()
     vim.keymap.set("n", "[c", function()
