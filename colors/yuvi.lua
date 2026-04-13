@@ -24,6 +24,7 @@ local p = {
   -- Pastel Syntax (max variation girly palette)
   keyword     = "#f2a6c8",   -- pastel pink: keywords, control flow
   variable    = "#d4c5d0",   -- soft rose-gray: local variables
+  variable_local = "#c9cadc", -- cooler gray-lilac: semantic local variables
   property    = "#f5b8a8",   -- pastel salmon: properties, fields
   func        = "#eed680",   -- pastel sunshine: functions, methods
   type        = "#88d4e8",   -- pastel ocean: types, interfaces
@@ -278,7 +279,7 @@ set(0, "@lsp.mod.deprecated",     { strikethrough = true })
 -- LSP typemod
 set(0, "@lsp.typemod.variable.declaration",   { fg = p.variable })
 set(0, "@lsp.typemod.variable.readonly",      { fg = p.variable })
-set(0, "@lsp.typemod.variable.local",         { fg = p.variable })
+set(0, "@lsp.typemod.variable.local",         { fg = p.variable_local })
 set(0, "@lsp.typemod.property.declaration",   { fg = p.property })
 set(0, "@lsp.typemod.parameter.declaration",  { fg = p.param })
 set(0, "@lsp.typemod.function.declaration",   { fg = p.func })
