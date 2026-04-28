@@ -3,7 +3,14 @@ return {
   version = "*", -- Use latest stable release
   config = function()
     local jj = require("jj")
-    jj.setup({})
+    jj.setup({
+      terminal = {
+        window = {
+          type = "hsplit",
+          split_size = 15 / vim.o.lines,
+        },
+      },
+    })
 
     local cmd = require("jj.cmd")
     vim.keymap.set("n", "<leader>jd", cmd.diff, { desc = "JJ diff" }) 
