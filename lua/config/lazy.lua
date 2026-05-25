@@ -58,16 +58,7 @@ require("lazy").setup({
         -- Python-related text object
         { "jeetsukumaran/vim-pythonsense", ft = { "python" } },
         
-
     -- { "MunifTanjim/nui.nvim", lazy = true },
-        -- {
-        --   "julienvincent/hunk.nvim",
-        --   cmd = { "DiffEditor" },
-        --   config = function()
-        --      local hunk = require("hunk")
-        --     hunk.setup()
-        --   end,
-        -- },
         -- {
         --   'MeanderingProgrammer/render-markdown.nvim',
         --   dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, 

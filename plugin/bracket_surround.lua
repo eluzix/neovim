@@ -2,7 +2,7 @@
 -- Fix: don't shadow Lua's pairs() by naming our table "mappings".
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = {"go", "zig"},
+  pattern = {"go", "zig", "js", "ts"},
   callback = function(ev)
     local mappings = {
       ["{"] = "{}<Left>",

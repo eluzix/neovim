@@ -1,3 +1,4 @@
+ require("macros")
  require("config.lazy")
  require("config.cmp")
  require("config.opts")
