@@ -64,10 +64,20 @@ return {
 
     local function resolve_jj_root()
       local current_file = vim.api.nvim_buf_get_name(0)
-      local search_dirs = {
-        #current_file > 0 and vim.fn.fnamemodify(current_file, ':p:h') or nil,
-        vim.fn.getcwd(),
-      }
+      local search_dirs = {}
+      if current_file and current_file ~= "" then
+        table.insert(search_dirs, vim.fn.fnamemodify(current_file, ':p:h'))
+      end
+      table.insert(search_dirs, vim.fn.getcwd())
+
+      for _, dir in ipairs(search_dirs) do
+        if dir and dir ~= "" then
+          local root = vim.fs.root(dir, { ".jj" })
+          if root then
+            return root
+          end
+        end
+      end
 
       for _, dir in ipairs(search_dirs) do
         if dir and dir ~= "" then
